@@ -22,22 +22,18 @@ class GFG {
 // User function Template for Java
 
 class Solution {
-    public String longestCommonPrefix(String strs[]) {
+    public String longestCommonPrefix(String arr[]) {
         // code here
-     if (strs == null || strs.length == 0) return "-1";
-        
-        // Set the initial prefix to the first string
-        String prefix = strs[0];
-        
-        for (int i = 1; i < strs.length; i++) {
-            // While the current string does not start with the prefix
-            while (strs[i].indexOf(prefix) != 0) {
-                // Reduce the prefix length by one
-                prefix = prefix.substring(0, prefix.length() - 1);
-                // If prefix becomes empty, return -1 indicating no common prefix
-                if (prefix.isEmpty()) return "-1";
+        String temp = arr[0];
+        int i=0,j=0;
+        while(i<temp.length()){
+            for(j=0;j<arr.length;j++){
+                if(temp.charAt(i)!=arr[j].charAt(i))break;
             }
+            if(j!=arr.length)break;
+            i++;
         }
-        return prefix;
+        if(i==0)return "-1";
+        return temp.substring(0,i);
     }
 }
