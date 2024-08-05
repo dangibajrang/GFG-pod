@@ -41,40 +41,42 @@ class GFG
 
 //User function Template for Java
 
-class Solution {
-    // Function to find the minimum number of platforms required at the
-    // railway station such that no train waits.
-    static int findPlatform(int arr[], int dep[], int n) {
-        // Sort arrival and departure arrays
+class Solution
+{
+    //Function to find the minimum number of platforms required at the
+    //railway station such that no train waits.
+    static int findPlatform(int arr[], int dep[], int n)
+    {
+        // Sort both the arrays
         Arrays.sort(arr);
         Arrays.sort(dep);
         
-        // Platforms needed at a time
-        int platform_needed = 0;
-        int max_platforms = 0;
+        // Platforms needed at the moment
+        int platformsNeeded = 1;
+        int maxPlatforms = 1;
         
         // Pointers for arrival and departure arrays
-        int i = 0, j = 0;
+        int i = 1, j = 0;
         
-        // Traverse through all arrival and departure times
+        // Traverse the arrival and departure arrays
         while (i < n && j < n) {
-            // If next train is arriving before or at the same time as the current train departs
+            // If next event in sorted order is arrival, increment count of platforms needed
             if (arr[i] <= dep[j]) {
-                platform_needed++;
+                platformsNeeded++;
                 i++;
-            } else {
-                // If next train is departing before or at the same time as the current train arrives
-                platform_needed--;
+            }
+            // If next event in sorted order is a departure, decrement count of platforms needed
+            else {
+                platformsNeeded--;
                 j++;
             }
-            // Update the maximum number of platforms needed
-            max_platforms = Math.max(max_platforms, platform_needed);
+            
+            // Update the maximum platforms needed
+            if (platformsNeeded > maxPlatforms) {
+                maxPlatforms = platformsNeeded;
+            }
         }
         
-        return max_platforms;
+        return maxPlatforms;
     }
-    
- 
 }
-
-
