@@ -52,26 +52,26 @@ class GFG {
     Node(int d)  { data = d;  next = null; }
 }
 */
+
 class Solution {
-    // Function to get the middle of the linked list
+    // Function to find the middle of the linked list
     int getMiddle(Node head) {
+        // If the list is empty, return -1
         if (head == null) {
-            return -1; // If the list is empty, return -1
+            return -1;
         }
 
+        // Initialize two pointers
         Node slow = head;
         Node fast = head;
 
-        // Traverse the list with two pointers
+        // Traverse the list, moving fast by 2 steps and slow by 1 step
         while (fast != null && fast.next != null) {
-            slow = slow.next;         // Moves one step
-            fast = fast.next.next;    // Moves two steps
+            slow = slow.next; // Move slow pointer one step
+            fast = fast.next.next; // Move fast pointer two steps
         }
 
-        // When fast reaches the end, slow will be at the middle
+        // When the fast pointer reaches the end, slow will be at the middle
         return slow.data;
     }
-
-
-
 }
