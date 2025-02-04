@@ -120,7 +120,9 @@ class BT_To_DLL
 			    printList(ans);
                 t--;
                 System.out.println();
-	        }
+	        
+System.out.println("~");
+}
 			
 		
 	}
@@ -148,53 +150,39 @@ class Node
 //This function should return head to the DLL
 
 class Solution {
-    
-    // To keep track of the previous node in the in-order traversal
-    Node prev = null;
+    // Pointers to track DLL head and previous node
+    Node head = null, prev = null;
 
-    // Head of the DLL
-    Node head = null;
-    
-    // Function to convert binary tree to doubly linked list and return it.
+    // Function to convert binary tree to doubly linked list
     Node bToDLL(Node root) {
-        // If the tree is empty, return null
-        if (root == null) {
-            return null;
-        }
-        
-        // Perform in-order traversal and update pointers
+        if (root == null) return null;
+
+        // Perform in-order traversal to create DLL
         convertToDLL(root);
-        
-        // Return the head of the DLL
-        return head;
+
+        return head; // Return the head of DLL
     }
-    
-    // Helper function to perform the in-order traversal and link nodes
+
     private void convertToDLL(Node root) {
-        // Base case: if the current node is null, return
-        if (root == null) {
-            return;
-        }
-        
-        // Recursively convert the left subtree
+        if (root == null) return;
+
+        // Recursively convert left subtree
         convertToDLL(root.left);
-        
-        // Now process the current node (root)
-        
-        // If prev is null, it means we are at the leftmost node (head of DLL)
+
+        // Process current node
         if (prev == null) {
-            // Set this node as the head of the doubly linked list
+            // This is the leftmost node, which becomes DLL head
             head = root;
         } else {
-            // If prev is not null, link the previous node with the current node
-            prev.right = root;  // Set prev's right to current node
-            root.left = prev;   // Set current node's left to prev node
+            // Link previous node with current node
+            prev.right = root;
+            root.left = prev;
         }
-        
-        // Move prev to the current node
+
+        // Move previous pointer to current node
         prev = root;
-        
-        // Recursively convert the right subtree
+
+        // Recursively convert right subtree
         convertToDLL(root.right);
     }
 }
