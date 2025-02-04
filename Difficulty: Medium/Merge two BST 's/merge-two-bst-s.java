@@ -79,11 +79,13 @@ class GFG {
             Node root2 = buildTree(s);
 
             Solution T = new Solution();
-            List<Integer> ans = T.merge(root1, root2);
+            ArrayList<Integer> ans = T.merge(root1, root2);
             for (int i = 0; i < ans.size(); i++) System.out.print(ans.get(i) + " ");
             System.out.println();
 
             t--;
+
+            System.out.println("~");
         }
     }
 }
@@ -109,35 +111,38 @@ class Node
 */
 
 class Solution {
-    // Function to return a list of integers denoting the node
-    // values of both the BST in sorted order.
-    public List<Integer> merge(Node root1, Node root2) {
-        // Step 1: Perform inorder traversal on both trees to get sorted lists.
-        List<Integer> list1 = new ArrayList<>();
-        List<Integer> list2 = new ArrayList<>();
-        
-        inorderTraversal(root1, list1);
-        inorderTraversal(root2, list2);
-        
-        // Step 2: Merge the two sorted lists.
-        return mergeSortedLists(list1, list2);
+    // Function to return a list of integers denoting the node values in sorted order.
+    public ArrayList<Integer> merge(Node root1, Node root2) {
+        ArrayList<Integer> list1 = new ArrayList<>();
+        ArrayList<Integer> list2 = new ArrayList<>();
+        ArrayList<Integer> mergedList = new ArrayList<>();
+
+        // Step 1: Get the in-order traversal of both BSTs
+        inOrder(root1, list1);
+        inOrder(root2, list2);
+
+        // Step 2: Merge the two sorted lists
+        mergeSortedLists(list1, list2, mergedList);
+
+        return mergedList;
     }
 
-    // Helper function to perform inorder traversal and add elements to the list.
-    private void inorderTraversal(Node root, List<Integer> list) {
+    // Helper function to perform in-order traversal and store elements in a list
+    private void inOrder(Node root, ArrayList<Integer> list) {
         if (root == null) return;
-        inorderTraversal(root.left, list);
-        list.add(root.data); // Add the current node value to the list.
-        inorderTraversal(root.right, list);
+
+        inOrder(root.left, list);  // Traverse left subtree
+        list.add(root.data);        // Add root node
+        inOrder(root.right, list); // Traverse right subtree
     }
 
-    // Helper function to merge two sorted lists.
-    private List<Integer> mergeSortedLists(List<Integer> list1, List<Integer> list2) {
-        List<Integer> mergedList = new ArrayList<>();
+    // Helper function to merge two sorted lists into one sorted list
+    private void mergeSortedLists(ArrayList<Integer> list1, ArrayList<Integer> list2, ArrayList<Integer> mergedList) {
         int i = 0, j = 0;
-        
-        // Merge the two sorted lists.
-        while (i < list1.size() && j < list2.size()) {
+        int n = list1.size(), m = list2.size();
+
+        // Merge both lists like merging two sorted arrays
+        while (i < n && j < m) {
             if (list1.get(i) <= list2.get(j)) {
                 mergedList.add(list1.get(i));
                 i++;
@@ -146,20 +151,18 @@ class Solution {
                 j++;
             }
         }
-        
-        // Add any remaining elements from list1.
-        while (i < list1.size()) {
+
+        // Add remaining elements from list1
+        while (i < n) {
             mergedList.add(list1.get(i));
             i++;
         }
-        
-        // Add any remaining elements from list2.
-        while (j < list2.size()) {
+
+        // Add remaining elements from list2
+        while (j < m) {
             mergedList.add(list2.get(j));
             j++;
         }
-        
-        return mergedList;
     }
 }
 
