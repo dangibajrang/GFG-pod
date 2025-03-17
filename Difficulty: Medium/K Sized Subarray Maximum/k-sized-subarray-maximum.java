@@ -13,7 +13,6 @@ public class Main {
 
         while (t-- > 0) {
             // taking total number of elements
-            int k = Integer.parseInt(br.readLine());
             String line = br.readLine();
             String[] tokens = line.split(" ");
 
@@ -28,48 +27,45 @@ public class Main {
             int[] arr = new int[array.size()];
             int idx = 0;
             for (int i : array) arr[idx++] = i;
-            ArrayList<Integer> res = new Solution().max_of_subarrays(k, arr);
+            int k = Integer.parseInt(br.readLine());
+            ArrayList<Integer> res = new Solution().maxOfSubarrays(arr, k);
 
             // printing the elements of the ArrayList
             for (int i = 0; i < res.size(); i++) System.out.print(res.get(i) + " ");
             System.out.println();
+            System.out.println("~");
         }
     }
 }
 // } Driver Code Ends
 
 
-// User function template for JAVA
 
 class Solution {
-    // Function to find maximum of each subarray of size k.
-    public ArrayList<Integer> max_of_subarrays(int k, int arr[]) {
-    // Initialize an ArrayList to store the maximum of each subarray
-    ArrayList<Integer> ans = new ArrayList<>();
-    
-    // Initialize a deque (double-ended queue) to store indices of useful elements
-    Deque<Integer> dq = new ArrayDeque<>();
-    
-    // Traverse through each element of the array
-    for(int i = 0; i < arr.length; i++) {
+    public ArrayList<Integer> maxOfSubarrays(int arr[], int k) {
+        ArrayList<Integer> result = new ArrayList<>();
+        Deque<Integer> dq = new LinkedList<>();
+        int n = arr.length;
         
-        // Remove elements from the front of the deque that are out of the current window (i-k)
-        if(dq.size() != 0 && dq.getFirst() == i - k) dq.removeFirst();
-        
-        // Remove elements from the back of the deque if they are smaller than the current element
-        // because they are not useful anymore as current element is larger
-        while(dq.size() != 0 && arr[dq.getLast()] <= arr[i]) dq.removeLast();
-        
-        // Add the current element index at the back of the deque
-        dq.add(i);
-        
-        // Once we have traversed at least 'k' elements (i >= k - 1), add the maximum element of 
-        // the current window to the result list. The maximum element is at the front of the deque
-        if(i >= k - 1) ans.add(arr[dq.getFirst()]);
-    }
-    
-    // Return the list of maximums for all subarrays of size 'k'
-    return ans;
-}
+        for (int i = 0; i < n; i++) {
+            // Remove elements that are out of this window
+            while (!dq.isEmpty() && dq.peek() < i - k + 1) {
+                dq.poll();
+            }
 
+            // Remove elements that are smaller than the current element
+            while (!dq.isEmpty() && arr[dq.peekLast()] < arr[i]) {
+                dq.pollLast();
+            }
+
+            // Add the current element index
+            dq.offer(i);
+
+            // Add the maximum element of this window to the result
+            if (i >= k - 1) {
+                result.add(arr[dq.peek()]);
+            }
+        }
+        return result;
+    }
 }
